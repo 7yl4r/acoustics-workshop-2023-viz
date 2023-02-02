@@ -5,6 +5,10 @@ editor: visual
 ---
 
 ```{python}
+CSV_PATH="https://raw.githubusercontent.com/holtzy/The-Python-Graph-Gallery/master/static/data/trentino_temperature.csv"
+```
+
+```{python}
 #| echo: false
 
 import matplotlib.colors as mc # For the legend
@@ -16,16 +20,22 @@ import pandas as pd
 from matplotlib.cm import ScalarMappable
 
 data = pd.read_csv(
-    "https://raw.githubusercontent.com/holtzy/The-Python-Graph-Gallery/master/static/data/trentino_temperature.csv"
+    CSV_PATH
 )
+data["hour"] = data["hour"].astype(int).map('{:02d}'.format)
 data
+data["datetime"] = data[["date", "hour"]].astype(str).agg(' '.join, axis=1) 
+data["datetime"] = pd.to_datetime(
+    data["datetime"],
+    format="%Y/%m/%d %H"
+)
 
 # Subset data
-subset = data[(data["date"].dt.year == 2004) & (data["date"].dt.month == 1)]
+subset = data[(data["datetime"].dt.year == 2004) & (data["datetime"].dt.month == 1)]
 
 # Extract hour, day, and temperature
 hour = subset["hour"]
-day = subset["date"].dt.day
+day = subset["datetime"].dt.day
 temp = subset["temp"]
 
 # Re-arrange temperature values
@@ -43,6 +53,6 @@ ygrid = np.arange(25)
 fig, ax = plt.subplots()
 ax.pcolormesh(xgrid, ygrid, temp)
 ax.set_frame_on(False) # remove all spines
-```
 
-The `echo: false` option disables the printing of code (only output is displayed).
+plt.show()
+```
