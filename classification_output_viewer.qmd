@@ -1,0 +1,45 @@
+---
+title: "classification_output_viewer"
+format: html
+editor: visual
+---
+
+```{python}
+#| echo: false
+import matplotlib.colors as mc # For the legend
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
+# Another utility for the legend
+from matplotlib.cm import ScalarMappable
+
+data = pd.read_csv("https://raw.githubusercontent.com/holtzy/The-Python-Graph-Gallery/master/static/data/trentino_temperature.csv")
+data
+
+# Subset data
+subset = data[(data["date"].dt.year == 2004) & (data["date"].dt.month == 1)]
+
+# Extract hour, day, and temperature
+hour = subset["hour"]
+day = subset["date"].dt.day
+temp = subset["temp"]
+
+# Re-arrange temperature values
+temp = temp.values.reshape(24, len(day.unique()), order="F")
+
+# Compute x and y grids, passed to `ax.pcolormesh()`.
+
+# The first + 1 increases the length
+# The outer + 1 ensures days start at 1, and not at 0.
+xgrid = np.arange(day.max() + 1) + 1
+
+# Hours start at 0, length 2
+ygrid = np.arange(25)
+
+fig, ax = plt.subplots()
+ax.pcolormesh(xgrid, ygrid, temp)
+ax.set_frame_on(False) # remove all spines
+```
+
+The `echo: false` option disables the printing of code (only output is displayed).
