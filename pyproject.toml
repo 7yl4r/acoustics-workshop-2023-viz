@@ -8,6 +8,8 @@ packages = [{include = "fwri_soundscape_viz"}]
 
 [tool.poetry.dependencies]
 python = "^3.8"
+matplotlib = "^3.6.3"
+pandas = "^1.5.3"
 
 
 [build-system]

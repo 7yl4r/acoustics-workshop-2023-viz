@@ -6,6 +6,7 @@ editor: visual
 
 ```{python}
 #| echo: false
+
 import matplotlib.colors as mc # For the legend
 import matplotlib.pyplot as plt
 import numpy as np
@@ -14,7 +15,9 @@ import pandas as pd
 # Another utility for the legend
 from matplotlib.cm import ScalarMappable
 
-data = pd.read_csv("https://raw.githubusercontent.com/holtzy/The-Python-Graph-Gallery/master/static/data/trentino_temperature.csv")
+data = pd.read_csv(
+    "https://raw.githubusercontent.com/holtzy/The-Python-Graph-Gallery/master/static/data/trentino_temperature.csv"
+)
 data
 
 # Subset data
